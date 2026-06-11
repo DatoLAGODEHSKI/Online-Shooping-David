@@ -1,3 +1,16 @@
 public enum PaymentStatus {
-    УСПЕХ, НЕУДАЧА, НЕ_ХВАТАЕТ
+    NOT_PAID("Не оплачен"),
+    PAID("Оплачен"),
+    PARTIALLY_PAID("Частично оплачен"),
+    REFUNDED("Возвращен");
+
+    private String rusName;
+
+    PaymentStatus(String rusName) {
+        this.rusName = rusName;
+    }
+
+    public String getRusName() {
+        return rusName;
+    }
 }

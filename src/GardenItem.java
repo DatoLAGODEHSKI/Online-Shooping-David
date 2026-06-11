@@ -1,13 +1,8 @@
 public class GardenItem extends Product {
-    private String material;
+    String material;
 
-    public GardenItem(String name, double price, String description, String color, String material) {
-        super(name, price, description, color);
+    public GardenItem(String title, double price, String description, String material) {
+        super(title, price, description);
         this.material = material;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + " [материал: " + material + "]";
     }
 }

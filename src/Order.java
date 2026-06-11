@@ -1,31 +1,39 @@
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class Order {
-    private static int orderCounter = 0;
-    private int id;
-    private Product product;
+    private String id;
     private Client client;
-    private double amount;
-    private OrderStatus orderStatus;
-    private PaymentStatus paymentStatus;
-    private Date date;
+    private List<Product> products;
+    private LocalDateTime dateTime;
+    private OrderStatus status;
+    private double totalAmount;
 
-    public Order(Product product, Client client, double amount) {
-        this.id = ++orderCounter;
-        this.product = product;
+    public Order(Client client, List<Product> products) {
+        this.id = "ORD" + System.currentTimeMillis() % 10000;
         this.client = client;
-        this.amount = amount;
-        this.orderStatus = OrderStatus.НОВЫЙ;
-        this.paymentStatus = PaymentStatus.НЕУДАЧА;
-        this.date = new Date();
+        this.products = products;
+        this.dateTime = LocalDateTime.now();
+        this.status = OrderStatus.PENDING;
+        this.totalAmount = products.stream().mapToDouble(Product::getPrice).sum();
     }
 
-    public void setOrderStatus(OrderStatus s) { orderStatus = s; }
-    public void setPaymentStatus(PaymentStatus s) { paymentStatus = s; }
-    public PaymentStatus getPaymentStatus() { return paymentStatus; }
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
 
-    @Override
+    public String getId() { return id; }
+    public OrderStatus getStatus() { return status; }
+    public double getTotalAmount() { return totalAmount; }
+    public List<Product> getProducts() { return products; }
+
+    public String getFormattedDateTime() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+        return dateTime.format(formatter);
+    }
+
     public String toString() {
-        return "Заказ №" + id + " от " + date + ": " + product.getName() + " на " + amount + " руб. Заказ: " + orderStatus + ", оплата: " + paymentStatus;
+        return "Заказ " + id + " от " + getFormattedDateTime() + " на сумму " + totalAmount + " руб. - " + status.getRusName();
     }
 }

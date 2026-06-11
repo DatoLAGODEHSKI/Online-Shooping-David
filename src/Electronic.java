@@ -1,15 +1,10 @@
 public class Electronic extends Product {
-    private String brand;
-    private int warrantyMonths;
+    String brand;
+    int warrantyMonths;
 
-    public Electronic(String name, double price, String description, String color, String brand, int warrantyMonths) {
-        super(name, price, description, color);
+    public Electronic(String title, double price, String description, String brand, int warrantyMonths) {
+        super(title, price, description);
         this.brand = brand;
         this.warrantyMonths = warrantyMonths;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + " [бренд: " + brand + ", гарантия: " + warrantyMonths + " мес.]";
     }
 }

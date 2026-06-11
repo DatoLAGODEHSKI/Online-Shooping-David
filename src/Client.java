@@ -1,53 +1,52 @@
 public class Client implements Finansible {
-    private static int idCounter = 0;
-    private int id;
-    private String name;
-    private double balance;
-    private UserRole role;
+    String id;
+    String name;
+    String email;
+    double balance;
 
-    public Client(String name, double balance, UserRole role) {
-        this.id = ++idCounter;
+    public Client(String name, String email, double balance) {
+        this.id = "CL" + System.currentTimeMillis() % 10000;
         this.name = name;
+        this.email = email;
         this.balance = balance;
-        this.role = role;
     }
 
-    public int getId() { return id; }
-    public String getName() { return name; }
-    public UserRole getRole() { return role; }
-    public void setRole(UserRole role) { this.role = role; }
-
-    public double getDiscount() {
-        if (role == UserRole.ВИП) return 0.20;
-        if (role == UserRole.ПРЕМИУМ) return 0.10;
-        return 0;
+    public double checkBalance() {
+        return balance;
     }
 
-    @Override
-    public double checkBalance() { return balance; }
-    @Override
-    public boolean hasEnoughMoney(double amount) { return balance >= amount; }
-    @Override
-    public String getFinalStatus() {
-        return "Клиент " + name + ", баланс: " + balance + " руб., роль: " + role;
+    public boolean hasEnoughMoney(double amount) {
+        return balance >= amount;
     }
 
-    public void pay(double amount) {
+    public String getFinancialStatus() {
+        if (balance > 10000) return "Платежеспособный";
+        if (balance > 1000) return "Стабильный";
+        return "Требуется пополнение";
+    }
+
+    public void withdraw(double amount) {
         if (hasEnoughMoney(amount)) {
             balance -= amount;
-            System.out.println("Оплачено " + amount + " руб.");
+            System.out.println("Списано " + amount + " руб. Остаток: " + balance + " руб.");
         } else {
-            System.out.println("Недостаточно денег");
+            System.out.println("Недостаточно средств!");
         }
     }
 
-    public void addBalance(double sum) {
-        balance += sum;
-        System.out.println("Баланс пополнен на " + sum);
+    public void addMoney(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.println("Баланс пополнен на " + amount + " руб.");
+        } else {
+            System.out.println("Сумма должна быть больше 0!");
+        }
     }
 
-    @Override
+    public String getName() { return name; }
+    public String getEmail() { return email; }
+
     public String toString() {
-        return name + " (баланс=" + balance + ", роль=" + role + ")";
+        return name + ", баланс: " + balance + " руб.";
     }
 }

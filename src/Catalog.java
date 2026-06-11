@@ -1,40 +1,35 @@
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class Catalog {
     private static Catalog instance;
-    private List<Category> categories;
+    private String name;
+    private ArrayList<Category> categories;
 
-    private Catalog() {
-        categories = new ArrayList<>();
+    private Catalog(String name) {
+        this.name = name;
+        this.categories = new ArrayList<>();
     }
 
-    public static Catalog getInstance() {
+    public static Catalog getInstance(String name) {
         if (instance == null) {
-            instance = new Catalog();
+            instance = new Catalog(name);
         }
         return instance;
     }
 
-    public void addCategory(Category c) {
-        categories.add(c);
+    public void addCategory(Category cat) {
+        categories.add(cat);
+        System.out.println("Категория '" + cat.getTitle() + "' добавлена");
     }
 
     public void showCategories() {
-        System.out.println("Каталог:");
-        for (Category c : categories) {
-            System.out.println(c);
+        System.out.println("\n=== Каталог: " + name + " ===");
+        for (int i = 0; i < categories.size(); i++) {
+            System.out.println((i+1) + ". " + categories.get(i).getTitle());
         }
-        System.out.println("Всего категорий: " + Category.getTotalCategories());
-        System.out.println("Всего товаров: " + Category.getTotalSubCategories());
     }
 
-    public void sortCategories() {
-        Collections.sort(categories);
-    }
-
-    public List<Category> getCategories() {
+    public ArrayList<Category> getCategories() {
         return categories;
     }
 }

@@ -1,16 +1,16 @@
 public class ProductFactory {
-    public static Product createProduct(String type, String name, double price, String description, String color, Object... extra) {
-        switch (type) {
-            case "mobile":
-                return new MobileDevice(name, price, description, color,
-                        (String) extra[0], (int) extra[1], (double) extra[2]);
-            case "electronic":
-                return new Electronic(name, price, description, color,
-                        (String) extra[0], (int) extra[1]);
-            case "garden":
-                return new GardenItem(name, price, description, color, (String) extra[0]);
-            default:
-                throw new IllegalArgumentException("Неизвестный тип");
-        }
+
+    public static Product createElectronic(String title, double price, String description,
+                                           String brand, int warranty) {
+        return new Electronic(title, price, description, brand, warranty);
+    }
+
+    public static Product createMobileDevice(String title, double price, String description,
+                                             String brand, int warranty, int battery, double screen) {
+        return new MobileDevice(title, price, description, brand, warranty, battery, screen);
+    }
+
+    public static Product createGardenItem(String title, double price, String description, String material) {
+        return new GardenItem(title, price, description, material);
     }
 }
